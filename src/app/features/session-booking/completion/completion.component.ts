@@ -17,7 +17,9 @@ export class CompletionComponent {
   sessionData$: Observable<SessionPage>;
 
   constructor(private sessionBookingService: SessionBookingService) {
-    this.sessionData$ = this.sessionBookingService.getSessionPage('session-1');
+    this.sessionData$ = this.sessionBookingService.getSessionPage(
+      'f47ac10b-58cc-4372-a567-0e02b2c3d479'
+    );
   }
 
   isMobile(): boolean {

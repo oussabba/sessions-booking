@@ -1,214 +1,197 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, map, catchError } from 'rxjs';
+import { Apollo } from 'apollo-angular';
 import {
   SessionPage,
   DateAvailability,
-  SessionHost,
-  SessionService,
-  SessionUser,
   TimeRange,
 } from '../../models/session.interface';
+import { GET_SESSION_PAGE, GET_AVAILABLE_DATE_TIMES } from './graphql-queries';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SessionBookingService {
-  constructor() {}
+  constructor(private apollo: Apollo) {}
 
   /**
-   * Mock implementation of getSessionPage query
+   * Get session page data from GraphQL API
    */
   getSessionPage(id: string): Observable<SessionPage> {
-    // Mock session data
-    const mockHost: SessionHost = {
-      firstName: 'Jane',
-      lastName: 'Doe',
-      profession: 'Leadership Coach',
-      photo:
-        'https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop&crop=face',
-    };
+    return this.apollo
+      .query<{ getSessionPage: any }>({
+        query: GET_SESSION_PAGE,
+        variables: { id },
+      })
+      .pipe(
+        map((result) => {
+          const data = result.data.getSessionPage;
 
-    const mockUser: SessionUser = {
-      firstName: 'John',
-      lastName: 'Smith',
-      email: 'john.smith@vibly.io',
-      timeZone: 'Eastern European Time',
-    };
+          // Transform GraphQL response to our interface
+          const sessionPage: SessionPage = {
+            date: data.date,
+            time: data.time,
+            duration: data.duration,
+            host: {
+              firstName: data.host.firstName,
+              lastName: data.host.lastName,
+              profession: data.host.profession,
+              photo: data.host.photo,
+            },
+            user: {
+              firstName: data.user.firstName,
+              lastName: data.user.lastName,
+              email: data.user.email,
+              timeZone: data.user.timeZone,
+            },
+            service: {
+              title: data.service.title,
+            },
+          };
 
-    const mockService: SessionService = {
-      title: 'Coaching Session',
-    };
-
-    const sessionPage: SessionPage = {
-      date: '2025-08-08',
-      time: '10:00:00',
-      duration: 30,
-      host: mockHost,
-      user: mockUser,
-      service: mockService,
-    };
-
-    return of(sessionPage);
+          return sessionPage;
+        }),
+        catchError((error) => {
+          console.error('Error fetching session page:', error);
+          throw error;
+        })
+      );
   }
 
   /**
-   * Mock implementation of getAvailableDateTimes query
+   * Get available date times from GraphQL API
    */
   getAvailableDateTimes(userId: string): Observable<DateAvailability[]> {
-    // Mock availability data for August 2025
-    const availabilities: DateAvailability[] = [
-      {
-        date: '2025-08-05',
-        times: this.getTimeRangesForDate('2025-08-05'),
-      },
-      {
-        date: '2025-08-07',
-        times: this.getTimeRangesForDate('2025-08-07'),
-      },
-      {
-        date: '2025-08-08',
-        times: this.getTimeRangesForDate('2025-08-08'),
-      },
-      {
-        date: '2025-08-09',
-        times: this.getTimeRangesForDate('2025-08-09'),
-      },
-      {
-        date: '2025-08-12',
-        times: this.getTimeRangesForDate('2025-08-12'),
-      },
-      {
-        date: '2025-08-14',
-        times: this.getTimeRangesForDate('2025-08-14'),
-      },
-      {
-        date: '2025-08-16',
-        times: this.getTimeRangesForDate('2025-08-16'),
-      },
-      {
-        date: '2025-08-19',
-        times: this.getTimeRangesForDate('2025-08-19'),
-      },
-      {
-        date: '2025-08-21',
-        times: this.getTimeRangesForDate('2025-08-21'),
-      },
-      {
-        date: '2025-08-23',
-        times: this.getTimeRangesForDate('2025-08-23'),
-      },
-      {
-        date: '2025-08-26',
-        times: this.getTimeRangesForDate('2025-08-26'),
-      },
-      {
-        date: '2025-08-28',
-        times: this.getTimeRangesForDate('2025-08-28'),
-      },
-    ];
+    return this.apollo
+      .query<{ getAvailableDateTimes: any[] }>({
+        query: GET_AVAILABLE_DATE_TIMES,
+        variables: { userId },
+      })
+      .pipe(
+        map((result) => {
+          const data = result.data.getAvailableDateTimes;
 
-    return of(availabilities);
+          // Transform GraphQL response to our interface
+          // Generate individual 30-minute slots from time ranges
+          const transformedData = data.map((item) => ({
+            date: item.date,
+            times: this.generateTimeSlotsFromRanges(item.times || []),
+          }));
+
+          return transformedData;
+        }),
+        catchError((error) => {
+          console.error('Service: Error fetching available date times:', error);
+          throw error;
+        })
+      );
+  }
+
+  /**
+   * Generate individual 30-minute time slots from time ranges
+   */
+  private generateTimeSlotsFromRanges(timeRanges: any[]): TimeRange[] {
+    const timeSlots: TimeRange[] = [];
+
+    timeRanges.forEach((range) => {
+      const startTime = range.start; // e.g., "10:00:00"
+      const endTime = range.end; // e.g., "12:00:00"
+
+      // Generate 30-minute slots within this range
+      const slots = this.generateSlotsInRange(startTime, endTime);
+      timeSlots.push(...slots);
+    });
+
+    return timeSlots;
+  }
+
+  /**
+   * Generate 30-minute slots within a time range
+   */
+  private generateSlotsInRange(
+    startTime: string,
+    endTime: string
+  ): TimeRange[] {
+    const slots: TimeRange[] = [];
+
+    // Parse start and end times
+    const start = this.parseTime(startTime);
+    const end = this.parseTime(endTime);
+
+    // Generate 30-minute slots
+    let current = start;
+    while (current < end) {
+      const slotStart = this.formatTime(current);
+      const slotEnd = this.formatTime(current + 30); // Add 30 minutes
+
+      slots.push({
+        start: slotStart,
+        end: slotEnd,
+      });
+
+      current += 30; // Move to next 30-minute slot
+    }
+
+    return slots;
+  }
+
+  /**
+   * Parse time string (HH:MM:SS) to minutes since midnight
+   */
+  private parseTime(timeString: string): number {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    return hours * 60 + minutes;
+  }
+
+  /**
+   * Format minutes since midnight back to HH:MM:SS
+   */
+  private formatTime(minutes: number): string {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours.toString().padStart(2, '0')}:${mins
+      .toString()
+      .padStart(2, '0')}:00`;
+  }
+
+  /**
+   * Convert 24-hour format time to 12-hour format for display
+   */
+  convertTo12HourFormat(time24: string): string {
+    const [hours, minutes] = time24.split(':').map(Number);
+
+    let period = 'am';
+    let displayHours = hours;
+
+    if (hours >= 12) {
+      period = 'pm';
+      if (hours > 12) {
+        displayHours = hours - 12;
+      }
+    } else if (hours === 0) {
+      displayHours = 12;
+    }
+
+    const displayMinutes =
+      minutes === 0 ? '00' : minutes.toString().padStart(2, '0');
+    return `${displayHours}:${displayMinutes}${period}`;
   }
 
   /**
    * Get available time slots for a specific date
-   * Matches the exact times shown in the Figma design
+   * This will filter the available times for the specific date
    */
   getAvailableTimesForDate(dateString: string): Observable<TimeRange[]> {
-    const timeRanges = this.getTimeRangesForDate(dateString);
-    return of(timeRanges);
-  }
+    // Using default userId in UUID format - in a real app, this would come from auth
+    const defaultUserId = 'a1b2c3d4-e5f6-7890-abcd-ef1234567890';
 
-  /**
-   * Private method to generate time ranges for a date
-   * Returns the exact time slots shown in Figma design
-   */
-  private getTimeRangesForDate(dateString: string): TimeRange[] {
-    // These are the exact times from the Figma design
-    const timeSlots = [
-      '8:00am',
-      '8:30am',
-      '9:00am',
-      '10:00am',
-      '10:15am',
-      '10:30am',
-      '10:45am',
-      '11:30am',
-      '1:30pm',
-      '2:30pm',
-      '2:45pm',
-      '3:00pm',
-      '3:30pm',
-    ];
-
-    return timeSlots.map((time, index) => ({
-      start: this.convertToAWSTime(time),
-      end: this.convertToAWSTime(this.calculateEndTime(time, 30)),
-    }));
-  }
-
-  /**
-   * Calculate end time based on start time and duration
-   */
-  private calculateEndTime(startTime: string, durationMinutes: number): string {
-    const match = startTime.match(/(\d+):(\d+)(am|pm)/);
-    if (!match) return startTime;
-
-    const [, hoursStr, minutesStr, period] = match;
-    const hours = parseInt(hoursStr);
-    const minutes = parseInt(minutesStr);
-
-    // Convert to 24-hour format
-    let hour24 = hours;
-    if (period === 'pm' && hours !== 12) {
-      hour24 += 12;
-    } else if (period === 'am' && hours === 12) {
-      hour24 = 0;
-    }
-
-    // Add duration
-    const totalMinutes = hour24 * 60 + minutes + durationMinutes;
-    const endHour24 = Math.floor(totalMinutes / 60);
-    const endMinutes = totalMinutes % 60;
-
-    // Convert back to 12-hour format
-    let endHour12 = endHour24;
-    let endPeriod = 'am';
-
-    if (endHour24 >= 12) {
-      endPeriod = 'pm';
-      if (endHour24 > 12) {
-        endHour12 = endHour24 - 12;
-      }
-    } else if (endHour24 === 0) {
-      endHour12 = 12;
-    }
-
-    const endMinutesStr = endMinutes.toString().padStart(2, '0');
-    return `${endHour12}:${endMinutesStr}${endPeriod}`;
-  }
-
-  /**
-   * Convert 12-hour format to AWS Time format (HH:MM:SS)
-   */
-  private convertToAWSTime(time12: string): string {
-    const match = time12.match(/(\d+):(\d+)(am|pm)/);
-    if (!match) return '00:00:00';
-
-    const [, hoursStr, minutesStr, period] = match;
-    const hours = parseInt(hoursStr);
-    const minutes = parseInt(minutesStr);
-
-    // Convert to 24-hour format
-    let hour24 = hours;
-    if (period === 'pm' && hours !== 12) {
-      hour24 += 12;
-    } else if (period === 'am' && hours === 12) {
-      hour24 = 0;
-    }
-
-    return `${hour24.toString().padStart(2, '0')}:${minutes
-      .toString()
-      .padStart(2, '0')}:00`;
+    return this.getAvailableDateTimes(defaultUserId).pipe(
+      map((availabilities) => {
+        const dateAvailability = availabilities.find(
+          (avail) => avail.date === dateString
+        );
+        return dateAvailability?.times || [];
+      })
+    );
   }
 }

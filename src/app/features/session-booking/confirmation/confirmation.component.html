@@ -26,11 +26,11 @@
         </div>
         
         <div class="confirmation__mobile-info">
-          <div class="confirmation__mobile-datetime">
-            {{ getFormattedDate() }}<br>{{ getFormattedTime() }}
+          <div class="confirmation__mobile-datetime" *ngIf="combinedData$ | async as data">
+            {{ data.formattedDateTime }}
           </div>
-          <div class="confirmation__mobile-user">
-            John Smith<br>john.smith&#64;vibly.io
+          <div class="confirmation__mobile-user" *ngIf="combinedData$ | async as data">
+            <app-user-profile [user]="data.sessionData.user"></app-user-profile>
           </div>
         </div>
         
@@ -89,13 +89,14 @@
       <!-- Left panel: Session details (matches date selection) -->
       <div class="confirmation__session-info">
         <app-host-profile 
-          *ngIf="sessionData$ | async as sessionData"
-          [host]="sessionData.host">
+          *ngIf="combinedData$ | async as data"
+          [host]="data.sessionData.host">
         </app-host-profile>
         
         <app-session-details
-          *ngIf="sessionData$ | async as sessionData"
-          [service]="sessionData.service">
+          *ngIf="combinedData$ | async as data"
+          [service]="data.sessionData.service"
+          [duration]="data.sessionData.duration">
         </app-session-details>
       </div>
 
@@ -107,18 +108,15 @@
             <h2 class="confirmation__form-title">Confirm booking</h2>
             
             <!-- Info section with two columns -->
-            <div class="confirmation__info-section">
+            <div class="confirmation__info-section" *ngIf="combinedData$ | async as data">
               <div class="confirmation__info-column">
                 <div class="confirmation__datetime">
-                  {{ getFormattedDate() }}
-{{ getFormattedTime() }}
-Eastern European Time (11:04)
+                  {{ data.formattedDateTime }}
                 </div>
               </div>
               <div class="confirmation__info-column">
                 <div class="confirmation__user">
-                  John Smith
-john.smith&#64;vibly.io
+                  <app-user-profile [user]="data.sessionData.user"></app-user-profile>
                 </div>
               </div>
             </div>

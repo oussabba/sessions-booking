@@ -46,22 +46,54 @@ export class CalendarComponent implements OnInit, OnChanges {
   ];
 
   ngOnInit() {
-    this.initializeCalendar();
+    // Only initialize with default if no availabilities are provided initially
+    if (this.availabilities.length === 0) {
+      this.initializeCalendar();
+    } else {
+      this.initializeCalendarWithApiData();
+    }
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['availabilities'] || changes['selectedDate']) {
+    if (changes['availabilities'] && this.availabilities.length > 0) {
+      // When API data arrives, initialize calendar to show relevant month
+      if (changes['availabilities'].firstChange || !this.currentMonth) {
+        this.initializeCalendarWithApiData();
+      } else {
+        this.updateCalendarDates();
+      }
+    }
+
+    if (changes['selectedDate']) {
       this.updateCalendarDates();
     }
   }
 
   private initializeCalendar() {
-    // Start with August 2025 as shown in the design
+    // Default initialization - show current month
     const today = new Date();
-    const targetMonth = 7; // August (0-indexed)
-    const targetYear = 2025;
+    this.currentMonth = this.generateMonth(
+      today.getFullYear(),
+      today.getMonth()
+    );
+  }
 
-    this.currentMonth = this.generateMonth(targetYear, targetMonth);
+  private initializeCalendarWithApiData() {
+    if (this.availabilities.length === 0) {
+      this.initializeCalendar();
+      return;
+    }
+
+    // Sort available dates and show the first month with available dates
+    const sortedDates = this.availabilities
+      .map((a) => new Date(a.date))
+      .sort((a, b) => a.getTime() - b.getTime());
+
+    const firstAvailableDate = sortedDates[0];
+    this.currentMonth = this.generateMonth(
+      firstAvailableDate.getFullYear(),
+      firstAvailableDate.getMonth()
+    );
   }
 
   private generateMonth(year: number, month: number): CalendarMonth {
@@ -80,13 +112,16 @@ export class CalendarComponent implements OnInit, OnChanges {
       const dateString = this.formatDate(currentDate);
       const isCurrentMonth = currentDate.getMonth() === month;
       const isPastDate = currentDate < today;
-      const isAvailable = this.isDateAvailable(dateString);
+      const hasAvailability = this.isDateAvailable(dateString);
+
+      // A date is available if it has availability AND is in current month AND not past
+      const isAvailable = hasAvailability && isCurrentMonth && !isPastDate;
       const isSelected = this.selectedDate === dateString;
 
       dates.push({
         day: currentDate.getDate(),
         date: dateString,
-        isAvailable: isAvailable && isCurrentMonth && !isPastDate,
+        isAvailable: isAvailable,
         isSelected: isSelected,
         isCurrentMonth: isCurrentMonth,
         isPastDate: isPastDate,
@@ -119,11 +154,16 @@ export class CalendarComponent implements OnInit, OnChanges {
   }
 
   private formatDate(date: Date): string {
-    return date.toISOString().split('T')[0];
+    // Format date as YYYY-MM-DD in local timezone to match API data
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   onDateClick(date: CalendarDate) {
-    if (date.isAvailable && !date.isPastDate) {
+    // Only allow clicks on available dates
+    if (date.isAvailable) {
       this.dateSelected.emit(date.date);
     }
   }

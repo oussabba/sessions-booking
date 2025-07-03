@@ -34,20 +34,20 @@
       </div>
 
       <!-- Host profile section -->
-      <div class="completion__mobile-host-section">
+      <div class="completion__mobile-host-section" *ngIf="sessionData$ | async as sessionData">
         <div class="completion__mobile-host-card">
           <!-- Host avatar (120px) -->
           <div class="completion__mobile-host-avatar">
             <img 
-              src="https://images.unsplash.com/photo-1494790108755-2616b612b04c?w=240&h=240&fit=crop&crop=face" 
-              alt="Jane Doe"
+              [src]="sessionData.host.photo" 
+              [alt]="sessionData.host.firstName + ' ' + sessionData.host.lastName"
               class="completion__mobile-host-image">
           </div>
           
           <!-- Host info -->
           <div class="completion__mobile-host-info">
-            <h3 class="completion__mobile-host-name">Jane Doe</h3>
-            <p class="completion__mobile-host-role">Pro nutrition coach</p>
+            <h3 class="completion__mobile-host-name">{{ sessionData.host.firstName }} {{ sessionData.host.lastName }}</h3>
+            <p class="completion__mobile-host-role">{{ sessionData.host.profession }}</p>
           </div>
         </div>
       </div>
@@ -108,20 +108,20 @@
           </div>
 
           <!-- Host profile section -->
-          <div class="completion__host-section">
+          <div class="completion__host-section" *ngIf="sessionData$ | async as sessionData">
             <div class="completion__host-card">
               <!-- Host avatar (120px) -->
               <div class="completion__host-avatar">
                 <img 
-                  src="https://images.unsplash.com/photo-1494790108755-2616b612b04c?w=240&h=240&fit=crop&crop=face" 
-                  alt="Jane Doe"
+                  [src]="sessionData.host.photo" 
+                  [alt]="sessionData.host.firstName + ' ' + sessionData.host.lastName"
                   class="completion__host-image">
               </div>
               
               <!-- Host info -->
               <div class="completion__host-info">
-                <h3 class="completion__host-name">Jane Doe</h3>
-                <p class="completion__host-role">Leadership coach</p>
+                <h3 class="completion__host-name">{{ sessionData.host.firstName }} {{ sessionData.host.lastName }}</h3>
+                <p class="completion__host-role">{{ sessionData.host.profession }}</p>
               </div>
             </div>
           </div>

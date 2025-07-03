@@ -14,6 +14,27 @@
     </div>
   </header>
 
+  <!-- Error message -->
+  <div class="date-selection__error" *ngIf="error$ | async as error">
+    <div class="date-selection__error-content">
+      <div class="date-selection__error-icon">⚠️</div>
+      <div class="date-selection__error-message">{{ error }}</div>
+      <button class="date-selection__error-dismiss" 
+              (click)="onDismissError()"
+              aria-label="Dismiss error">
+        ✕
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading state -->
+  <div class="date-selection__loading" *ngIf="loading$ | async">
+    <div class="date-selection__loading-content">
+      <div class="date-selection__loading-spinner"></div>
+      <div class="date-selection__loading-text">Loading session information...</div>
+    </div>
+  </div>
+
   <!-- Mobile: Selected Date Bar (only shown when viewing time selection) -->
   <div class="date-selection__mobile-date-bar" 
        *ngIf="showingTimeSelection && selectedDate">
@@ -28,7 +49,7 @@
   </div>
 
   <!-- Main content area -->
-  <div class="date-selection__content">
+  <div class="date-selection__content" *ngIf="!(loading$ | async)">
     <!-- Desktop Layout: Always visible -->
     <div class="date-selection__desktop-layout">
       <!-- Left panel: Session details -->
@@ -46,12 +67,19 @@
       <div class="date-selection__center-panel">
         <ng-container *ngIf="(sessionData$ | async) as sessionData">
           <ng-container *ngIf="(availabilities$ | async) as availabilities">
+            <!-- Only render calendar when we have both session data and availabilities -->
             <app-calendar
+              *ngIf="availabilities.length > 0"
               [availabilities]="availabilities"
               [selectedDate]="selectedDate"
               [timeZone]="sessionData.user.timeZone"
               (dateSelected)="onDateSelected($event)">
             </app-calendar>
+            
+            <!-- Show message if no availabilities -->
+            <div *ngIf="availabilities.length === 0" class="date-selection__no-availabilities">
+              <p>No available dates found.</p>
+            </div>
           </ng-container>
         </ng-container>
       </div>
@@ -59,7 +87,16 @@
       <!-- Right panel: Time selection -->
       <div class="date-selection__right-panel" 
            [class.date-selection__right-panel--has-selection]="selectedDate">
+        
+        <!-- Times loading indicator -->
+        <div class="date-selection__times-loading" *ngIf="timesLoading$ | async">
+          <div class="date-selection__times-loading-spinner"></div>
+          <div class="date-selection__times-loading-text">Loading available times...</div>
+        </div>
+
+        <!-- Time selection component -->
         <app-time-selection
+          *ngIf="!(timesLoading$ | async)"
           [selectedDate]="selectedDate"
           [availableTimes]="availableTimesForSelectedDate"
           [selectedTime]="selectedTime"
@@ -87,12 +124,19 @@
         <!-- Calendar -->
         <ng-container *ngIf="(sessionData$ | async) as sessionData">
           <ng-container *ngIf="(availabilities$ | async) as availabilities">
+            <!-- Only render calendar when we have availabilities -->
             <app-calendar
+              *ngIf="availabilities.length > 0"
               [availabilities]="availabilities"
               [selectedDate]="selectedDate"
               [timeZone]="sessionData.user.timeZone"
               (dateSelected)="onDateSelected($event)">
             </app-calendar>
+            
+            <!-- Show message if no availabilities -->
+            <div *ngIf="availabilities.length === 0" class="date-selection__no-availabilities">
+              <p>No available dates found.</p>
+            </div>
           </ng-container>
         </ng-container>
       </div>
@@ -112,8 +156,15 @@
           </div>
         </div>
 
+        <!-- Mobile times loading indicator -->
+        <div class="date-selection__mobile-times-loading" *ngIf="timesLoading$ | async">
+          <div class="date-selection__times-loading-spinner"></div>
+          <div class="date-selection__times-loading-text">Loading available times...</div>
+        </div>
+
         <!-- Time selection -->
         <app-time-selection
+          *ngIf="!(timesLoading$ | async)"
           [selectedDate]="selectedDate"
           [availableTimes]="availableTimesForSelectedDate"
           [selectedTime]="selectedTime"

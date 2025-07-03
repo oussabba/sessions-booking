@@ -48,8 +48,7 @@ export class TimeSelectionComponent {
     const [hours, minutes] = awsTime.split(':').map(Number);
     const period = hours >= 12 ? 'pm' : 'am';
     const displayHours = hours === 0 ? 12 : hours > 12 ? hours - 12 : hours;
-    const displayMinutes =
-      minutes > 0 ? `:${minutes.toString().padStart(2, '0')}` : '';
+    const displayMinutes = `:${minutes.toString().padStart(2, '0')}`;
 
     return `${displayHours}${displayMinutes}${period}`;
   }
