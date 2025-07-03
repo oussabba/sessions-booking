@@ -1,0 +1,147 @@
+<div class="completion" [class.completion--mobile]="isMobile()">
+  <!-- Mobile Layout -->
+  <div class="completion__mobile" *ngIf="isMobile()">
+    <!-- Fixed Mobile Header -->
+    <header class="completion__mobile-header">
+      <h1 class="completion__mobile-title">Schedule session</h1>
+      <div class="completion__mobile-branding">
+        <span class="completion__mobile-branding-text">POWERED BY</span>
+        <div class="completion__mobile-logo">
+          <!-- Vibly logo -->
+          <svg width="36" height="16" viewBox="0 0 36 16" fill="none">
+            <rect width="36" height="16" fill="white"/>
+            <circle cx="7" cy="8" r="1.5" fill="#61BDE4"/>
+            <circle cx="11" cy="8" r="1.5" fill="#DCAD4A"/>
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Content -->
+    <main class="completion__mobile-content">
+      <!-- Success section -->
+      <div class="completion__mobile-success">
+        <!-- Check icon -->
+        <div class="completion__mobile-check-icon">
+          <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="32" fill="#0B7E1E"/>
+            <path d="M20 32L28 40L44 24" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        
+        <!-- Success title -->
+        <h2 class="completion__mobile-success-title">Booking Successful</h2>
+      </div>
+
+      <!-- Host profile section -->
+      <div class="completion__mobile-host-section">
+        <div class="completion__mobile-host-card">
+          <!-- Host avatar (120px) -->
+          <div class="completion__mobile-host-avatar">
+            <img 
+              src="https://images.unsplash.com/photo-1494790108755-2616b612b04c?w=240&h=240&fit=crop&crop=face" 
+              alt="Jane Doe"
+              class="completion__mobile-host-image">
+          </div>
+          
+          <!-- Host info -->
+          <div class="completion__mobile-host-info">
+            <h3 class="completion__mobile-host-name">Jane Doe</h3>
+            <p class="completion__mobile-host-role">Pro nutrition coach</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="completion__mobile-divider"></div>
+
+      <!-- CTA section -->
+      <div class="completion__mobile-cta-section">
+        <h3 class="completion__mobile-cta-title">Take your growth to the next level</h3>
+        
+        <button 
+          type="button"
+          class="completion__mobile-cta-button"
+          (click)="onJoinVibly()">
+          Join Vibly
+        </button>
+      </div>
+    </main>
+  </div>
+
+  <!-- Desktop Layout -->
+  <div class="completion__desktop" *ngIf="!isMobile()">
+    <!-- Header with same structure as other steps -->
+    <header class="completion__header">
+      <div class="completion__header-content">
+        <h1 class="completion__title">Session scheduled</h1>
+        <div class="completion__branding">
+          <span class="completion__branding-text">POWERED BY</span>
+          <div class="completion__logo">
+            <!-- Vibly logo -->
+            <svg width="46" height="20" viewBox="0 0 46 20" fill="none">
+              <rect width="46" height="20" fill="white"/>
+              <circle cx="10" cy="10" r="2" fill="#61BDE4"/>
+              <circle cx="15" cy="10" r="2" fill="#DCAD4A"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content area -->
+    <div class="completion__main">
+      <div class="completion__content">
+        <div class="completion__inner">
+          <!-- Success section -->
+          <div class="completion__success">
+            <!-- Check icon -->
+            <div class="completion__check-icon">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="32" r="32" fill="#0B7E1E"/>
+                <path d="M20 32L28 40L44 24" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            
+            <!-- Success title -->
+            <h2 class="completion__success-title">Booking Successful</h2>
+          </div>
+
+          <!-- Host profile section -->
+          <div class="completion__host-section">
+            <div class="completion__host-card">
+              <!-- Host avatar (120px) -->
+              <div class="completion__host-avatar">
+                <img 
+                  src="https://images.unsplash.com/photo-1494790108755-2616b612b04c?w=240&h=240&fit=crop&crop=face" 
+                  alt="Jane Doe"
+                  class="completion__host-image">
+              </div>
+              
+              <!-- Host info -->
+              <div class="completion__host-info">
+                <h3 class="completion__host-name">Jane Doe</h3>
+                <p class="completion__host-role">Leadership coach</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Divider -->
+          <div class="completion__divider"></div>
+
+          <!-- CTA section -->
+          <div class="completion__cta-section">
+            <h3 class="completion__cta-title">Take your growth to the next level</h3>
+            
+            <button 
+              type="button"
+              class="completion__cta-button"
+              (click)="onJoinVibly()">
+              Join Vibly
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

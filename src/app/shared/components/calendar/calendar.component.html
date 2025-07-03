@@ -1,0 +1,72 @@
+<div class="calendar">
+  <div class="calendar__header">
+    <div class="calendar__title-section">
+      <div class="calendar__title">
+        <span class="calendar__title-text">Select date:</span>
+      </div>
+      <p class="calendar__subtitle">Select a date to see the available time slots on that day</p>
+    </div>
+    
+    <div class="calendar__navigation">
+      <div class="calendar__nav-controls">
+        <button 
+          class="calendar__nav-button" 
+          (click)="previousMonth()"
+          aria-label="Previous month">
+          <svg width="9" height="16" viewBox="0 0 9 16" fill="none">
+            <path d="M8.5 15L1 8L8.5 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        
+        <div class="calendar__month-display">
+          <span class="calendar__month-text">{{ getCurrentMonthYear() }}</span>
+        </div>
+        
+        <button 
+          class="calendar__nav-button" 
+          (click)="nextMonth()"
+          aria-label="Next month">
+          <svg width="9" height="16" viewBox="0 0 9 16" fill="none">
+            <path d="M1 15L8.5 8L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="calendar__grid">
+        <!-- Weekday headers -->
+        <div class="calendar__weekdays">
+          <div 
+            *ngFor="let day of weekDays" 
+            class="calendar__weekday">
+            {{ day }}
+          </div>
+        </div>
+        
+        <!-- Date grid -->
+        <div class="calendar__dates">
+          <div 
+            *ngFor="let date of currentMonth.dates"
+            class="calendar__date"
+            [class.calendar__date--available]="date.isAvailable"
+            [class.calendar__date--unavailable]="!date.isAvailable && date.isCurrentMonth && !date.isPastDate"
+            [class.calendar__date--selected]="date.isSelected"
+            [class.calendar__date--disabled]="!date.isCurrentMonth || date.isPastDate"
+            [class.calendar__date--other-month]="!date.isCurrentMonth"
+            (click)="onDateClick(date)">
+            <span class="calendar__date-text">{{ date.day }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="calendar__timezone" *ngIf="timeZone">
+    <div class="calendar__timezone-label">Time Zone</div>
+    <div class="calendar__timezone-value">
+      <span class="calendar__timezone-text">{{ timeZone }} (11:04)</span>
+      <svg width="9" height="16" viewBox="0 0 9 16" fill="none" class="calendar__timezone-icon">
+        <path d="M1 15L8.5 8L1 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+  </div>
+</div>

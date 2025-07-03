@@ -1,0 +1,24 @@
+<div class="time-selection" [class.time-selection--mobile]="isMobile">
+  <!-- Selected date display bar (hidden on mobile) -->
+  <div class="time-selection__date-bar" *ngIf="selectedDate && !isMobile">
+    <span class="time-selection__date-text">{{ getSelectedDateDisplay() }}</span>
+  </div>
+  
+  <!-- Time selection section -->
+  <div class="time-selection__content" *ngIf="selectedDate">
+    <div class="time-selection__header">
+      <span class="time-selection__title">Select time:</span>
+    </div>
+    
+    <!-- Available time slots -->
+    <div class="time-selection__slots">
+      <button 
+        *ngFor="let time of availableTimes"
+        class="time-selection__slot"
+        [class.time-selection__slot--selected]="selectedTime === time"
+        (click)="onTimeClick(time)">
+        {{ getDisplayTime(time.start) }}
+      </button>
+    </div>
+  </div>
+</div> 

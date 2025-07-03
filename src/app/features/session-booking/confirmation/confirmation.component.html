@@ -1,0 +1,151 @@
+<div class="confirmation" [class.confirmation--mobile]="isMobile()">
+  <!-- Mobile Layout -->
+  <div class="confirmation__mobile" *ngIf="isMobile()">
+    <!-- Header -->
+    <header class="confirmation__mobile-header">
+      <h1 class="confirmation__mobile-title">Schedule session</h1>
+      <div class="confirmation__mobile-branding">
+        <span class="confirmation__mobile-branding-text">POWERED BY</span>
+        <div class="confirmation__mobile-logo">
+          <!-- Vibly logo placeholder -->
+          <svg width="36" height="16" viewBox="0 0 36 16" fill="none">
+            <rect width="36" height="16" fill="white"/>
+            <circle cx="7" cy="8" r="1.5" fill="#61BDE4"/>
+            <circle cx="11" cy="8" r="1.5" fill="#DCAD4A"/>
+          </svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="confirmation__mobile-content">
+      <!-- Head Section -->
+      <div class="confirmation__mobile-head">
+        <div class="confirmation__mobile-title-section">
+          <h2 class="confirmation__mobile-confirm-title">Confirm booking</h2>
+        </div>
+        
+        <div class="confirmation__mobile-info">
+          <div class="confirmation__mobile-datetime">
+            {{ getFormattedDate() }}<br>{{ getFormattedTime() }}
+          </div>
+          <div class="confirmation__mobile-user">
+            John Smith<br>john.smith&#64;vibly.io
+          </div>
+        </div>
+        
+        <p class="confirmation__mobile-description">
+          The call link will be sent to you by email 5 minutes before the start.
+        </p>
+      </div>
+
+      <!-- Buttons -->
+      <div class="confirmation__mobile-actions">
+        <button 
+          type="button"
+          class="confirmation__mobile-back"
+          (click)="onBackClick()">
+          Back
+        </button>
+        <button 
+          type="button"
+          class="confirmation__mobile-confirm"
+          (click)="onConfirmClick()">
+          Confirm
+        </button>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="confirmation__mobile-disclaimer">
+        <p class="confirmation__mobile-disclaimer-text">
+          If this is not your data or you are not working with this coach, please close the page
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <!-- Desktop Layout -->
+  <div class="confirmation__desktop" *ngIf="!isMobile()">
+    <!-- Header with same structure as date selection -->
+    <header class="confirmation__header">
+      <div class="confirmation__header-content">
+        <h1 class="confirmation__title">Schedule session</h1>
+        <div class="confirmation__branding">
+          <span class="confirmation__branding-text">POWERED BY</span>
+          <div class="confirmation__logo">
+            <!-- Vibly logo placeholder -->
+            <svg width="46" height="20" viewBox="0 0 46 20" fill="none">
+              <rect width="46" height="20" fill="white"/>
+              <circle cx="10" cy="10" r="2" fill="#61BDE4"/>
+              <circle cx="15" cy="10" r="2" fill="#DCAD4A"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main content area with exact Figma layout -->
+    <div class="confirmation__main">
+      <!-- Left panel: Session details (matches date selection) -->
+      <div class="confirmation__session-info">
+        <app-host-profile 
+          *ngIf="sessionData$ | async as sessionData"
+          [host]="sessionData.host">
+        </app-host-profile>
+        
+        <app-session-details
+          *ngIf="sessionData$ | async as sessionData"
+          [service]="sessionData.service">
+        </app-session-details>
+      </div>
+
+      <!-- Right panel: Confirmation form -->
+      <div class="confirmation__form-section">
+        <div class="confirmation__form">
+          <!-- Form header with title -->
+          <div class="confirmation__form-header">
+            <h2 class="confirmation__form-title">Confirm booking</h2>
+            
+            <!-- Info section with two columns -->
+            <div class="confirmation__info-section">
+              <div class="confirmation__info-column">
+                <div class="confirmation__datetime">
+                  {{ getFormattedDate() }}
+{{ getFormattedTime() }}
+Eastern European Time (11:04)
+                </div>
+              </div>
+              <div class="confirmation__info-column">
+                <div class="confirmation__user">
+                  John Smith
+john.smith&#64;vibly.io
+                </div>
+              </div>
+            </div>
+            
+            <!-- Description text -->
+            <p class="confirmation__description">
+              We will send you a confirmation email with the session details and meeting link.
+            </p>
+          </div>
+          
+          <!-- Action buttons -->
+          <div class="confirmation__form-actions">
+            <button 
+              type="button"
+              class="confirmation__form-actions-back"
+              (click)="onBackClick()">
+              Back
+            </button>
+            <button 
+              type="button"
+              class="confirmation__form-actions-confirm"
+              (click)="onConfirmClick()">
+              Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

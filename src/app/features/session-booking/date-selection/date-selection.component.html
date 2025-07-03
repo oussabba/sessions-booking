@@ -1,0 +1,126 @@
+<div class="date-selection">
+  <!-- Header with title and branding -->
+  <header class="date-selection__header">
+    <h1 class="date-selection__title">Schedule session</h1>
+    <div class="date-selection__branding">
+      <span class="date-selection__powered-by">POWERED BY</span>
+      <div class="date-selection__logo">
+        <svg width="46" height="20" viewBox="0 0 46 20" fill="none">
+          <path d="M-0.19 0h46.53v20H-0.19V0z" fill="#FFFFFF"/>
+          <circle cx="10.43" cy="2.02" r="1.915" fill="#61BDE4"/>
+          <circle cx="15.21" cy="2.02" r="1.895" fill="#DCAD4A"/>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile: Selected Date Bar (only shown when viewing time selection) -->
+  <div class="date-selection__mobile-date-bar" 
+       *ngIf="showingTimeSelection && selectedDate">
+    <button class="date-selection__back-button" 
+            (click)="onBackToDateSelection()"
+            aria-label="Back to date selection">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+        <path d="M7.5 9L4.5 6L7.5 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <span class="date-selection__selected-date-text">{{ getFormattedSelectedDate() }}</span>
+  </div>
+
+  <!-- Main content area -->
+  <div class="date-selection__content">
+    <!-- Desktop Layout: Always visible -->
+    <div class="date-selection__desktop-layout">
+      <!-- Left panel: Session details -->
+      <div class="date-selection__left-panel">
+        <ng-container *ngIf="sessionData$ | async as sessionData">
+          <app-host-profile [host]="sessionData.host"></app-host-profile>
+          <app-session-details 
+            [service]="sessionData.service" 
+            [duration]="sessionData.duration">
+          </app-session-details>
+        </ng-container>
+      </div>
+
+      <!-- Center panel: Calendar -->
+      <div class="date-selection__center-panel">
+        <ng-container *ngIf="(sessionData$ | async) as sessionData">
+          <ng-container *ngIf="(availabilities$ | async) as availabilities">
+            <app-calendar
+              [availabilities]="availabilities"
+              [selectedDate]="selectedDate"
+              [timeZone]="sessionData.user.timeZone"
+              (dateSelected)="onDateSelected($event)">
+            </app-calendar>
+          </ng-container>
+        </ng-container>
+      </div>
+
+      <!-- Right panel: Time selection -->
+      <div class="date-selection__right-panel" 
+           [class.date-selection__right-panel--has-selection]="selectedDate">
+        <app-time-selection
+          [selectedDate]="selectedDate"
+          [availableTimes]="availableTimesForSelectedDate"
+          [selectedTime]="selectedTime"
+          (timeSelected)="onTimeSelected($event)">
+        </app-time-selection>
+      </div>
+    </div>
+
+    <!-- Mobile Layout: Conditional rendering -->
+    <div class="date-selection__mobile-layout">
+      <!-- Mobile: Calendar view (when not showing time selection) -->
+      <div class="date-selection__mobile-calendar" 
+           *ngIf="!showingTimeSelection">
+        <!-- Coach and session info above calendar on mobile -->
+        <div class="date-selection__mobile-session-info">
+          <ng-container *ngIf="sessionData$ | async as sessionData">
+            <app-host-profile [host]="sessionData.host"></app-host-profile>
+            <app-session-details 
+              [service]="sessionData.service" 
+              [duration]="sessionData.duration">
+            </app-session-details>
+          </ng-container>
+        </div>
+        
+        <!-- Calendar -->
+        <ng-container *ngIf="(sessionData$ | async) as sessionData">
+          <ng-container *ngIf="(availabilities$ | async) as availabilities">
+            <app-calendar
+              [availabilities]="availabilities"
+              [selectedDate]="selectedDate"
+              [timeZone]="sessionData.user.timeZone"
+              (dateSelected)="onDateSelected($event)">
+            </app-calendar>
+          </ng-container>
+        </ng-container>
+      </div>
+
+      <!-- Mobile: Time selection view (when showing time selection) -->
+      <div class="date-selection__mobile-time-selection" 
+           *ngIf="showingTimeSelection">
+        <!-- Time zone section -->
+        <div class="date-selection__mobile-timezone" 
+             *ngIf="(sessionData$ | async) as sessionData">
+          <div class="date-selection__timezone-label">Time Zone</div>
+          <div class="date-selection__timezone-value">
+            <span class="date-selection__timezone-text">{{ sessionData.user.timeZone }} (11:04)</span>
+            <svg width="13" height="8" viewBox="0 0 13 8" fill="none" class="date-selection__timezone-icon">
+              <path d="M1 1L6.5 6L12 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Time selection -->
+        <app-time-selection
+          [selectedDate]="selectedDate"
+          [availableTimes]="availableTimesForSelectedDate"
+          [selectedTime]="selectedTime"
+          [isMobile]="true"
+          (timeSelected)="onTimeSelected($event)">
+        </app-time-selection>
+      </div>
+    </div>
+  </div>
+</div>

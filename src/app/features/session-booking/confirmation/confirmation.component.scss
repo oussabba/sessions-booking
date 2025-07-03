@@ -1,0 +1,509 @@
+.confirmation {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #FFFFFF;
+  
+  // Mobile Layout (375px width from Figma)
+  &__mobile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  &__mobile-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #F2F2F2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 16px;
+    z-index: 100;
+  }
+
+  &__mobile-title {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 1.35em;
+    color: #000000;
+    margin: 0;
+  }
+
+  &__mobile-branding {
+    display: flex;
+    align-items: center;
+    gap: 6.22px;
+    background-color: #380E4D;
+    border-radius: 4.67px;
+    padding: 6.22px 12.44px;
+  }
+
+  &__mobile-branding-text {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600;
+    font-size: 7.78px;
+    line-height: 1.25em;
+    color: #FFFFFF;
+    text-transform: uppercase;
+  }
+
+  &__mobile-logo {
+    width: 35.97px;
+    height: 15.56px;
+  }
+
+  &__mobile-content {
+    margin-top: 64px;
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    flex: 1;
+  }
+
+  &__mobile-head {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__mobile-title-section {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__mobile-confirm-title {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600;
+    font-size: 21px;
+    line-height: 1.25em;
+    color: #000000;
+    margin: 0;
+  }
+
+  &__mobile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__mobile-datetime,
+  &__mobile-user {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.5em;
+    color: #000000;
+  }
+
+  &__mobile-description {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.25em;
+    color: #505050;
+    margin: 0;
+  }
+
+  &__mobile-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  &__mobile-back {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+    height: 48px;
+    background-color: transparent;
+    border: 1px solid #E0E0E0;
+    border-radius: 100px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1em;
+    color: #220936;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: #220936;
+      background-color: rgba(34, 9, 54, 0.05);
+    }
+
+    &:focus {
+      outline: 2px solid #380E4D;
+      outline-offset: 2px;
+    }
+  }
+
+  &__mobile-confirm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 32px;
+    height: 48px;
+    background-color: #000000;
+    border: none;
+    border-radius: 100px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.21em;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #220936;
+    }
+
+    &:focus {
+      outline: 2px solid #380E4D;
+      outline-offset: 2px;
+    }
+  }
+
+  &__mobile-disclaimer {
+    display: flex;
+    align-items: stretch;
+    padding: 12px 0 0 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+  }
+
+  &__mobile-disclaimer-text {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.25em;
+    color: #505050;
+    text-align: center;
+    margin: 0;
+    width: 100%;
+  }
+
+  // Desktop Layout (hidden on mobile)
+  &__desktop {
+    display: none;
+  }
+
+  // Desktop styles (768px and above) - Matching original date selection design
+  @media (min-width: 769px) {
+    &__mobile {
+      display: none;
+    }
+
+    &__desktop {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      min-height: 100vh;
+      background-color: #FAFAF9;
+    }
+
+    // Header matching date selection exactly
+    &__header {
+      background-color: #FFFFFF;
+      border-bottom: 1px solid #F2F2F2;
+    }
+
+    &__header-content {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__title {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 600;
+      font-size: 17px;
+      line-height: 1.35em;
+      color: #000000;
+      margin: 0;
+    }
+
+    &__branding {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #380E4D;
+      border-radius: 6px;
+      padding: 8px 16px;
+    }
+
+    &__branding-text {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 600;
+      font-size: 10px;
+      line-height: 1.25em;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    &__logo {
+      width: 46px;
+      height: 20px;
+    }
+
+    // Main content area with two-column layout
+    &__main {
+      max-width: 960px;
+      margin: 0 auto;
+      background-color: #FFFFFF;
+      border: 1px solid #E5E5E5;
+      border-radius: 12px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      display: flex;
+    }
+
+    // Left panel: Session details (matches date selection)
+    &__session-info {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding: 20px;
+      background-color: #FFFFFF;
+      border-right: 1px solid #F2F2F2;
+      min-width: 300px;
+    }
+
+    // Right panel: Confirmation form
+    &__form-section {
+      display: flex;
+      flex-direction: column;
+      padding: 40px;
+      background-color: #FFFFFF;
+      justify-content: flex-start;
+      flex: 1;
+    }
+
+    &__form {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    &__form-header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    &__form-title {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 600;
+      font-size: 21px;
+      line-height: 1.25em;
+      color: #000000;
+    }
+
+    &__info-section {
+      display: flex;
+      align-items: stretch;
+      gap: 8px;
+    }
+
+    &__info-column {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    &__datetime,
+    &__user {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1.5em;
+      color: #000000;
+      white-space: pre-line;
+    }
+
+    &__description {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 1.25em;
+      color: #505050;
+    }
+
+    &__form-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+    }
+
+    &__form-actions-back {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 24px;
+      height: 48px;
+      background-color: transparent;
+      border: 1px solid #E0E0E0;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1em;
+      color: #220936;
+
+      &:hover {
+        border-color: #380E4D;
+        background-color: rgba(56, 14, 77, 0.05);
+      }
+
+      &:focus {
+        outline: 2px solid #380E4D;
+        outline-offset: 2px;
+      }
+    }
+
+    &__form-actions-confirm {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 32px;
+      height: 48px;
+      background-color: #000000;
+      border: none;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      line-height: 1.21em;
+      color: #FFFFFF;
+
+      &:hover {
+        background-color: #220936;
+      }
+
+      &:focus {
+        outline: 2px solid #380E4D;
+        outline-offset: 2px;
+      }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 1200px) {
+  .confirmation {
+    max-width: 100%;
+    margin: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .confirmation {
+    margin: 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    min-height: 100vh;
+
+    &__header {
+      padding: 24px 16px;
+    }
+
+    &__title {
+      font-size: 17px;
+    }
+
+    &__branding {
+      padding: 6px 12px;
+      border-radius: 4.67px;
+      
+      span {
+        font-size: 7.78px;
+      }
+    }
+
+    &__content {
+      display: block;
+      min-height: auto;
+    }
+
+    &__left-panel {
+      border-right: none;
+      border-bottom: 1px solid #F2F2F2;
+      padding: 16px;
+      min-width: unset;
+    }
+
+    &__right-panel {
+      padding: 20px 16px;
+    }
+
+    &__form {
+      max-width: none;
+    }
+
+    &__form-title {
+      font-size: 18px;
+    }
+
+    &__actions {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    &__back-button,
+    &__confirm-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .confirmation {
+    &__header {
+      padding: 20px 12px;
+    }
+
+    &__right-panel {
+      padding: 16px 12px;
+    }
+
+    &__form-title {
+      font-size: 16px;
+    }
+
+    &__datetime-info,
+    &__user-info {
+      font-size: 14px;
+    }
+  }
+} 
