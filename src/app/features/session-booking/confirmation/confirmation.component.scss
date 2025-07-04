@@ -2,6 +2,16 @@
   width: 100%;
   min-height: 100vh;
   background-color: #FFFFFF;
+
+  // Mobile full screen when isMobile() is true
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+  }
   
   // Mobile Layout (375px width from Figma)
   &__mobile {
@@ -16,14 +26,15 @@
     top: 0;
     left: 0;
     right: 0;
+    width: 100vw;
     height: 64px;
     background-color: #FFFFFF;
     border-bottom: 1px solid #F2F2F2;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 16px;
-    z-index: 100;
+    padding: 16px;
+    z-index: 1001;
   }
 
   &__mobile-title {
@@ -60,11 +71,13 @@
 
   &__mobile-content {
     margin-top: 64px;
-    padding: 24px 16px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
     flex: 1;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
   }
 
   &__mobile-head {
@@ -478,7 +491,6 @@
     border-radius: 0;
     border: none;
     box-shadow: none;
-    min-height: 100vh;
 
     &__header {
       padding: 24px 16px;

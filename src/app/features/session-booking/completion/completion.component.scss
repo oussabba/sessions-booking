@@ -5,12 +5,22 @@
   display: flex;
   flex-direction: column;
 
-  // Mobile Layout (375px width from Figma)
+  // Mobile full screen when isMobile() is true
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+  }
+
+  // Mobile Layout (full screen)
   &__mobile {
     display: flex;
     flex-direction: column;
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
     background-color: #FFFFFF;
   }
 
@@ -19,14 +29,15 @@
     top: 0;
     left: 0;
     right: 0;
+    width: 100vw;
     height: 64px;
     background-color: #FFFFFF;
     border-bottom: 1px solid #F2F2F2;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 16px;
-    z-index: 100;
+    padding: 16px;
+    z-index: 1001;
   }
 
   &__mobile-title {
@@ -63,12 +74,14 @@
 
   &__mobile-content {
     margin-top: 64px;
-    padding: 40px 16px;
+    padding: 24px 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: 20px;
     flex: 1;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
   }
 
   // Mobile Success section

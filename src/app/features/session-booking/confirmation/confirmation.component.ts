@@ -152,10 +152,6 @@ export class ConfirmationComponent implements OnInit {
     return `${weekday}, ${day} ${month} ${year}\n${startTime} - ${endTime} (${timeZoneAbbr})\n${timeZone} (11:04)`;
   }
 
-  getUserInfo(): string {
-    return 'John Smith\njohn.smith@vibly.io';
-  }
-
   getUserInfoWithData(sessionData: SessionPage): string {
     const fullName = `${sessionData.user.firstName} ${sessionData.user.lastName}`;
     const email = sessionData.user.email;

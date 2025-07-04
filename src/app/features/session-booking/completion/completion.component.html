@@ -2,20 +2,8 @@
   <!-- Mobile Layout -->
   <div class="completion__mobile" *ngIf="isMobile()">
     <!-- Fixed Mobile Header -->
-    <header class="completion__mobile-header">
-      <h1 class="completion__mobile-title">Schedule session</h1>
-      <div class="completion__mobile-branding">
-        <span class="completion__mobile-branding-text">POWERED BY</span>
-        <div class="completion__mobile-logo">
-          <!-- Vibly logo -->
-          <svg width="36" height="16" viewBox="0 0 36 16" fill="none">
-            <rect width="36" height="16" fill="white"/>
-            <circle cx="7" cy="8" r="1.5" fill="#61BDE4"/>
-            <circle cx="11" cy="8" r="1.5" fill="#DCAD4A"/>
-          </svg>
-        </div>
-      </div>
-    </header>
+    <app-session-header title="Session scheduled"></app-session-header>
+
 
     <!-- Mobile Content -->
     <main class="completion__mobile-content">
