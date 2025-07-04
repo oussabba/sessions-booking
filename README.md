@@ -1,59 +1,221 @@
-# ViblyChallenge
+# Vibly Session Booking Challenge
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.14.
+A modern, responsive Angular application for scheduling 1:1 sessions with hosts. Built with Angular 19, TypeScript, and GraphQL integration.
 
-## Development server
+## 🌟 Features
 
-To start a local development server, run:
+- **4-Step Booking Workflow**: Date selection → Time selection → Confirmation → Completion
+- **Responsive Design**: Optimized for both desktop and mobile devices
+- **Real-time Availability**: GraphQL-powered session availability checking
+- **Modern UI Components**: Reusable Angular standalone components
+- **Comprehensive Testing**: Full test suite with Jasmine and Karma
+- **TypeScript**: Type-safe development with strict type checking
+
+## 🚀 Technology Stack
+
+### Frontend
+
+- **Angular 19.2.0** - Latest Angular framework
+- **TypeScript 5.7.2** - Type-safe JavaScript
+- **RxJS 7.8.0** - Reactive programming
+- **SCSS** - Enhanced CSS with variables and mixins
+
+### Backend Integration
+
+- **Apollo Angular 11.0.0** - GraphQL client
+- **GraphQL 16.11.0** - Query language for APIs
+
+### Testing
+
+- **Jasmine 5.6.0** - Testing framework
+- **Karma 6.4.0** - Test runner
+- **Angular Testing Utilities** - Component and service testing
+
+## 📋 Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+- **Node.js** (v18+ recommended)
+- **npm** (v9+ recommended)
+- **Angular CLI** (v19.2.14)
 
 ```bash
+# Install Angular CLI globally
+npm install -g @angular/cli
+```
+
+## 🛠️ Installation & Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/oussabba/sessions-booking.git
+cd sessions-booking
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Environment Configuration
+
+The application requires GraphQL API configuration. Follow these steps:
+
+```bash
+# Copy template files
+cp src/environments/environment.template.ts src/environments/environment.ts
+cp src/environments/environment.prod.template.ts src/environments/environment.prod.ts
+```
+
+**Update with your credentials:**
+
+Edit `src/environments/environment.ts`:
+
+```typescript
+export const environment = {
+  production: false,
+  graphql: {
+    apiUrl: "YOUR_GRAPHQL_API_URL_HERE",
+    apiKey: "YOUR_API_KEY_HERE",
+  },
+};
+```
+
+Edit `src/environments/environment.prod.ts` with production credentials.
+
+### 4. Start Development Server
+
+```bash
+npm start
+# or
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Navigate to `http://localhost:4200`. The application will automatically reload when you change source files.
 
-## Code scaffolding
+## 🧪 Testing
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Running Tests
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+The project includes comprehensive test coverage with multiple testing commands:
 
 ```bash
-ng generate --help
+# Run tests in interactive mode
+npm test
+
+# Run tests in watch mode (development)
+npm run test:watch
+
+# Run tests once (CI mode)
+npm run test:ci
+
+# Run tests with coverage report
+npm run test:coverage
 ```
 
-## Building
+### Test Structure
 
-To build the project run:
-
-```bash
-ng build
+```
+src/
+├── app/
+│   ├── **/*.spec.ts                    # Component tests
+│   ├── core/services/*.spec.ts         # Service tests
+│   └── shared/components/*.spec.ts     # Shared component tests
+├── test.ts                             # Test configuration
+└── karma.conf.js                       # Karma configuration
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 🏗️ Project Structure
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+```
+sessions-booking/
+├── src/
+│   ├── app/
+│   │   ├── core/
+│   │   │   └── services/               # Core business services
+│   │   │       ├── session-booking.service.ts
+│   │   │       └── graphql-queries.ts
+│   │   ├── features/
+│   │   │   └── session-booking/        # Feature modules
+│   │   │       ├── date-selection/
+│   │   │       ├── confirmation/
+│   │   │       └── completion/
+│   │   ├── shared/
+│   │   │   └── components/             # Reusable components
+│   │   │       ├── calendar/
+│   │   │       ├── host-profile/
+│   │   │       ├── session-details/
+│   │   │       ├── session-header/
+│   │   │       ├── time-selection/
+│   │   │       └── user-profile/
+│   │   ├── models/
+│   │   │   └── session.interface.ts    # TypeScript interfaces
+│   │   ├── app.component.*             # Root component
+│   │   ├── app.config.ts               # App configuration
+│   │   └── app.routes.ts               # Routing configuration
+│   ├── environments/                   # Environment configs
+│   ├── assets/                         # Static assets
+│   └── styles.scss                     # Global styles
+├── karma.conf.js                       # Test configuration
+├── angular.json                        # Angular workspace config
+└── package.json                        # Dependencies and scripts
 ```
 
-## Running end-to-end tests
+## 🔄 Development Workflow
 
-For end-to-end (e2e) testing, run:
+### Component Architecture
 
-```bash
-ng e2e
+The application follows Angular best practices:
+
+- **Standalone Components**: All components are standalone for better tree-shaking
+- **OnPush Change Detection**: Optimized performance with OnPush strategy
+- **Smart/Dumb Components**: Clear separation of concerns
+- **Reactive Forms**: Type-safe form handling
+
+### State Management
+
+- **Service-based State**: Centralized state management through services
+- **RxJS Observables**: Reactive data flow
+- **Apollo Cache**: GraphQL response caching
+
+## 🌐 API Integration
+
+### GraphQL Endpoints
+
+The application integrates with GraphQL APIs:
+
+**Queries:**
+
+- `getSessionPage(id: ID!)` - Fetch session details
+- `getAvailableDateTimes(userId: ID!)` - Get availability data
+
+**Headers:**
+
+```typescript
+{
+  'Authorization': 'Bearer YOUR_API_KEY',
+  'Content-Type': 'application/json'
+}
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Data Models
 
-## Additional Resources
+Key interfaces:
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```typescript
+interface SessionPage {
+  date: string;
+  time: string;
+  duration: number;
+  host: SessionHost;
+  user: SessionUser;
+  service: SessionService;
+}
+
+interface DateAvailability {
+  date: string;
+  times: TimeRange[];
+}
+```
