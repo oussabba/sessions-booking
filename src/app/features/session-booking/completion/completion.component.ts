@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 
 import { SessionBookingService } from '../../../core/services/session-booking.service';
+import { SessionHeaderComponent } from '../../../shared/components/session-header/session-header.component';
 import { SessionPage } from '../../../models/session.interface';
 
 @Component({
   selector: 'app-completion',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SessionHeaderComponent],
   templateUrl: './completion.component.html',
   styleUrls: ['./completion.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +28,7 @@ export class CompletionComponent {
   }
 
   onJoinVibly(): void {
-    // TODO: Navigate to Vibly signup/main app
-    console.log('Navigating to Vibly platform...');
+    // Navigate to Vibly platform in a new tab
+    window.open('https://vibly.io', '_blank');
   }
 }

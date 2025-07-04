@@ -27,7 +27,9 @@
         
         <div class="confirmation__mobile-info">
           <div class="confirmation__mobile-datetime" *ngIf="combinedData$ | async as data">
-            {{ data.formattedDateTime }}
+            <div class="confirmation__mobile-date">{{ getFormattedDateWithData(data.sessionData) }}</div>
+            <div class="confirmation__mobile-time">{{ getFormattedTimeWithData(data.sessionData) }}</div>
+            <div class="confirmation__mobile-timezone">{{ getFormattedTimezoneWithData(data.sessionData) }}</div>
           </div>
           <div class="confirmation__mobile-user" *ngIf="combinedData$ | async as data">
             <app-user-profile [user]="data.sessionData.user"></app-user-profile>
@@ -66,26 +68,13 @@
 
   <!-- Desktop Layout -->
   <div class="confirmation__desktop" *ngIf="!isMobile()">
-    <!-- Header with same structure as date selection -->
-    <header class="confirmation__header">
-      <div class="confirmation__header-content">
-        <h1 class="confirmation__title">Schedule session</h1>
-        <div class="confirmation__branding">
-          <span class="confirmation__branding-text">POWERED BY</span>
-          <div class="confirmation__logo">
-            <!-- Vibly logo placeholder -->
-            <svg width="46" height="20" viewBox="0 0 46 20" fill="none">
-              <rect width="46" height="20" fill="white"/>
-              <circle cx="10" cy="10" r="2" fill="#61BDE4"/>
-              <circle cx="15" cy="10" r="2" fill="#DCAD4A"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </header>
+    <!-- Unified Container -->
+    <div class="confirmation__container">
+      <!-- Reusable Header -->
+      <app-session-header title="Schedule session"></app-session-header>
 
-    <!-- Main content area with exact Figma layout -->
-    <div class="confirmation__main">
+      <!-- Main content area with exact Figma layout -->
+      <div class="confirmation__main">
       <!-- Left panel: Session details (matches date selection) -->
       <div class="confirmation__session-info">
         <app-host-profile 
@@ -111,7 +100,9 @@
             <div class="confirmation__info-section" *ngIf="combinedData$ | async as data">
               <div class="confirmation__info-column">
                 <div class="confirmation__datetime">
-                  {{ data.formattedDateTime }}
+                  <div class="confirmation__date">{{ getFormattedDateWithData(data.sessionData) }}</div>
+                  <div class="confirmation__time">{{ getFormattedTimeWithData(data.sessionData) }}</div>
+                  <div class="confirmation__timezone">{{ getFormattedTimezoneWithData(data.sessionData) }}</div>
                 </div>
               </div>
               <div class="confirmation__info-column">
@@ -144,6 +135,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </div> 

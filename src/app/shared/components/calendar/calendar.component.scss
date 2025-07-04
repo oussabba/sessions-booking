@@ -166,11 +166,11 @@
     // Available dates (with times available)
     &--available {
       background-color: #FFFFFF;
-      border-color: #F4F4F5;
+      border-color: #DEE0E8;
       cursor: pointer;
 
       .calendar__date-text {
-        color: rgba(34, 9, 54, 0.25);
+        color: #000000;
       }
       
       &:hover {

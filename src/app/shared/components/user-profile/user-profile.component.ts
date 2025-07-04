@@ -17,10 +17,4 @@ export class UserProfileComponent {
   getUserFullName(): string {
     return `${this.user.firstName} ${this.user.lastName}`;
   }
-
-  getUserInitials(): string {
-    const firstInitial = this.user.firstName.charAt(0).toUpperCase();
-    const lastInitial = this.user.lastName.charAt(0).toUpperCase();
-    return `${firstInitial}${lastInitial}`;
-  }
 }

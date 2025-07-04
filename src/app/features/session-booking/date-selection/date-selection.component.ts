@@ -15,6 +15,7 @@ import { HostProfileComponent } from '../../../shared/components/host-profile/ho
 import { SessionDetailsComponent } from '../../../shared/components/session-details/session-details.component';
 import { CalendarComponent } from '../../../shared/components/calendar/calendar.component';
 import { TimeSelectionComponent } from '../../../shared/components/time-selection/time-selection.component';
+import { SessionHeaderComponent } from '../../../shared/components/session-header/session-header.component';
 import {
   SessionPage,
   DateAvailability,
@@ -30,6 +31,7 @@ import {
     SessionDetailsComponent,
     CalendarComponent,
     TimeSelectionComponent,
+    SessionHeaderComponent,
   ],
   templateUrl: './date-selection.component.html',
   styleUrls: ['./date-selection.component.scss'],

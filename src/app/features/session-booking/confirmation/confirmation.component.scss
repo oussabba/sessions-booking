@@ -93,7 +93,29 @@
     gap: 16px;
   }
 
-  &__mobile-datetime,
+  &__mobile-datetime {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__mobile-date,
+  &__mobile-time {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 1.5em;
+    color: #000000;
+  }
+
+  &__mobile-timezone {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.25em;
+    color: #7D7D7D;
+  }
+
   &__mobile-user {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-weight: 600;
@@ -209,6 +231,20 @@
       width: 100%;
       min-height: 100vh;
       background-color: #FAFAF9;
+      padding: 40px 0px;
+    }
+
+    &__container {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      background-color: #FFFFFF;
+      border: 1px solid #E5E5E5;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
 
     // Header matching date selection exactly
@@ -218,8 +254,6 @@
     }
 
     &__header-content {
-      max-width: 960px;
-      margin: 0 auto;
       padding: 24px;
       display: flex;
       justify-content: space-between;
@@ -261,15 +295,7 @@
 
     // Main content area with two-column layout
     &__main {
-      max-width: 960px;
-      margin: 0 auto;
       background-color: #FFFFFF;
-      border: 1px solid #E5E5E5;
-      border-radius: 12px;
-      margin-top: 40px;
-      margin-bottom: 40px;
-      overflow: hidden;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       display: flex;
     }
 
@@ -320,7 +346,7 @@
     &__info-section {
       display: flex;
       align-items: stretch;
-      gap: 8px;
+      gap: 100px;
     }
 
     &__info-column {
@@ -330,14 +356,35 @@
       flex: 1;
     }
 
-    &__datetime,
+    &__datetime {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    &__date,
+    &__time {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 1.5em;
+      color: #000000;
+    }
+
+    &__timezone {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 1.25em;
+      color: #7D7D7D;
+    }
+
     &__user {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-weight: 600;
       font-size: 15px;
       line-height: 1.5em;
       color: #000000;
-      white-space: pre-line;
     }
 
     &__description {

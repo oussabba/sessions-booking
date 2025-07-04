@@ -1,18 +1,6 @@
 <div class="date-selection">
-  <!-- Header with title and branding -->
-  <header class="date-selection__header">
-    <h1 class="date-selection__title">Schedule session</h1>
-    <div class="date-selection__branding">
-      <span class="date-selection__powered-by">POWERED BY</span>
-      <div class="date-selection__logo">
-        <svg width="46" height="20" viewBox="0 0 46 20" fill="none">
-          <path d="M-0.19 0h46.53v20H-0.19V0z" fill="#FFFFFF"/>
-          <circle cx="10.43" cy="2.02" r="1.915" fill="#61BDE4"/>
-          <circle cx="15.21" cy="2.02" r="1.895" fill="#DCAD4A"/>
-        </svg>
-      </div>
-    </div>
-  </header>
+  <!-- Reusable Header -->
+  <app-session-header title="Schedule session"></app-session-header>
 
   <!-- Error message -->
   <div class="date-selection__error" *ngIf="error$ | async as error">
@@ -150,9 +138,6 @@
           <div class="date-selection__timezone-label">Time Zone</div>
           <div class="date-selection__timezone-value">
             <span class="date-selection__timezone-text">{{ sessionData.user.timeZone }} (11:04)</span>
-            <svg width="13" height="8" viewBox="0 0 13 8" fill="none" class="date-selection__timezone-icon">
-              <path d="M1 1L6.5 6L12 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
           </div>
         </div>
 

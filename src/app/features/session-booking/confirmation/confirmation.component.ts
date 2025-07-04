@@ -14,6 +14,7 @@ import { SessionBookingService } from '../../../core/services/session-booking.se
 import { HostProfileComponent } from '../../../shared/components/host-profile/host-profile.component';
 import { SessionDetailsComponent } from '../../../shared/components/session-details/session-details.component';
 import { UserProfileComponent } from '../../../shared/components/user-profile/user-profile.component';
+import { SessionHeaderComponent } from '../../../shared/components/session-header/session-header.component';
 import { SessionPage, TimeRange } from '../../../models/session.interface';
 
 @Component({
@@ -24,6 +25,7 @@ import { SessionPage, TimeRange } from '../../../models/session.interface';
     HostProfileComponent,
     SessionDetailsComponent,
     UserProfileComponent,
+    SessionHeaderComponent,
   ],
   templateUrl: './confirmation.component.html',
   styleUrls: ['./confirmation.component.scss'],
@@ -168,6 +170,7 @@ export class ConfirmationComponent implements OnInit {
       'Greenwich Mean Time': 'GMT',
       'Pacific Standard Time': 'PST',
       'Eastern Standard Time': 'EST',
+      'America/New_York': 'EDT',
       // Add more as needed
     };
 
@@ -239,5 +242,58 @@ export class ConfirmationComponent implements OnInit {
   getFormattedTime(): string {
     if (!this.selectedTime) return '';
     return `${this.selectedTime.start} - ${this.selectedTime.end} (EET)`;
+  }
+
+  getFormattedDateWithData(sessionData: SessionPage): string {
+    if (!this.selectedDate) return '';
+
+    const date = new Date(this.selectedDate);
+    const weekdays = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+
+    const weekday = weekdays[date.getDay()];
+    const day = date.getDate();
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+
+    return `${weekday}, ${day} ${month} ${year}`;
+  }
+
+  getFormattedTimeWithData(sessionData: SessionPage): string {
+    if (!this.selectedTime) return '';
+
+    const startTime = this.formatTime(this.selectedTime.start);
+    const endTime = this.formatTime(this.selectedTime.end);
+    const timeZoneAbbr = this.getTimeZoneAbbreviation(
+      sessionData.user.timeZone || 'Eastern European Time'
+    );
+
+    return `${startTime} - ${endTime} (${timeZoneAbbr})`;
+  }
+
+  getFormattedTimezoneWithData(sessionData: SessionPage): string {
+    const timeZone = sessionData.user.timeZone || 'Eastern European Time';
+    return `${timeZone} (11:04)`;
   }
 }

@@ -1,9 +1,4 @@
 <div class="user-profile">
-  <div class="user-profile__avatar">
-    <div class="user-profile__avatar-placeholder">
-      {{ getUserInitials() }}
-    </div>
-  </div>
   <div class="user-profile__info">
     <h3 class="user-profile__name">{{ getUserFullName() }}</h3>
     <p class="user-profile__email" *ngIf="showEmail">{{ user.email }}</p>
